@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Session Makati - all four parts</title>
+<style>
+:root{
+ --paper:#f5f0e6; --card:#efe7d6; --card2:#e4dccb; --ink:#2b2620;
+ --soft:#6d6456; --faint:#93897a; --line:#ddd1bc;
+ --accent:#9a6634; --accent2:#b98a52;
+ --good:#5a7d4a; --goodbg:#e4ecdc;
+ --cmdbg:#2b2620; --cmdfg:#f0e6d4;
+}
+@media (prefers-color-scheme:dark){
+ :root{
+  --paper:#1c1814; --card:#241f1a; --card2:#2f2a24; --ink:#efe7d6;
+  --soft:#c9bfae; --faint:#8b8172; --line:#4a433a;
+  --accent:#d9ab73; --accent2:#b98a52;
+  --good:#9ec488; --goodbg:#26301f;
+  --cmdbg:#100d0a; --cmdfg:#f0e6d4;
+ }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font:16px/1.65 "PingFang TC","Microsoft JhengHei",-apple-system,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:30px 20px 70px}
+h1,h2,h3{font-family:Georgia,"Songti TC",serif;font-weight:600;letter-spacing:.2px}
+header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font-size:32px;margin:9px 0 6px}
+.lede{font-size:18px;color:var(--soft);margin:0 0 18px}
+.bar{height:7px;background:var(--card2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s}
+.barlab{font-size:12px;color:var(--faint);margin-top:6px}
+.pre{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+ border-radius:10px;padding:14px 16px;margin-top:18px;font-size:14.5px}
+.pre b{color:var(--accent)}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:26px}
+@media (max-width:760px){.layout{grid-template-columns:1fr}.rail{order:2}}
+.rail{position:sticky;top:20px;align-self:start}
+.rstep{display:flex;gap:11px;padding:10px 11px;border-radius:9px;cursor:pointer;margin-bottom:3px}
+.rstep:hover{background:var(--card)}
+.rstep.cur{background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.dot{width:23px;height:23px;flex:none;border-radius:50%;background:var(--card2);
+ color:var(--soft);font:600 12px/23px ui-monospace,monospace;text-align:center}
+.rstep.cur .dot{background:var(--accent);color:#fff}
+.rstep.done .dot{background:var(--good);color:#fff}
+.rt{display:block;font-size:14.5px;font-weight:600}
+.rd{display:block;font-size:12.5px;color:var(--faint)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px}
+.panel.hide{display:none}
+.stepno{font-size:12.5px;color:var(--faint);letter-spacing:.06em}
+.panel h2{font-size:25px;margin:6px 0 4px}
+.sub{color:var(--soft);margin:0 0 20px;font-size:15.5px}
+.why,.do,.ok,.note{border-radius:10px;padding:13px 15px;margin:14px 0;font-size:15px}
+.why{background:var(--card2)}
+.do{background:transparent;border:1px dashed var(--accent2);color:var(--ink);font-weight:600}
+.ok{background:var(--goodbg);border-left:3px solid var(--good)}
+.ok b{color:var(--good)}
+.note{background:transparent;border:1px solid var(--line);font-size:14px;color:var(--soft)}
+.cmd{background:var(--cmdbg);color:var(--cmdfg);border-radius:11px;margin:12px 0;overflow:hidden}
+.cmdhd{display:flex;justify-content:space-between;align-items:center;
+ padding:9px 13px;font-size:12.5px;color:#bdae95;border-bottom:1px solid #3a332b}
+.cmdhd button{font:600 12px/1 inherit;background:var(--accent);color:#fff;border:0;
+ border-radius:7px;padding:6px 11px;cursor:pointer}
+.cmdhd button.ok{background:var(--good)}
+.cmd pre{margin:0;padding:14px 15px;white-space:pre-wrap;word-break:break-word;
+ font:13.5px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+ border-top:1px solid var(--line);padding-top:18px}
+.nav button{font:600 15px/1 inherit;border-radius:10px;padding:12px 20px;cursor:pointer;border:0}
+.prev{background:var(--card2);color:var(--soft)}
+.next{background:var(--accent);color:#fff}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+ font-size:13px;color:var(--faint)}
+details{margin:14px 0;font-size:14.5px}
+summary{cursor:pointer;color:var(--accent);font-weight:600}
+table.mini{border-collapse:collapse;font-size:13.5px;margin:10px 0;width:100%}
+table.mini th,table.mini td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+table.mini th{background:var(--card2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">AI Session &middot; Makati &middot; 2 October 2026</div>
+  <h1>AI Session &mdash; Makati</h1>
+  <p class="lede">Three hours, four parts, fourteen steps. Built from the 32 pre-session forms you filled in.</p>
+  <div class="bar"><i id="pbar"></i></div>
+  <div class="barlab" id="plab">Example 1 of 4</div>
+  <div class="pre">
+    <b>Before you start.</b> You only need a browser and a ChatGPT account. Nothing to install at any point today. Open <b>chatgpt.com</b> and log in.
+  </div>
+</header>
+
+<div class="layout">
+  <div class="rail" id="rail"></div>
+  <div id="panels">
+
+<!-- ============ 1 ============ -->
+<section class="panel" data-t="Part 1 · Three quotes, one table" data-d="Stop retyping into Excel">
+  <div class="stepno">Example 1 &nbsp;·&nbsp; of 4</div>
+  <h2>Three quotes, one table</h2>
+  <p class="sub">One of you described this in the form: collect quotations from different emails and files, then merge them into Excel by hand. Two to three hours.</p>
+
+  <div class="why"><b>Why this one first.</b> You are not bad at Excel. The slow part is that the numbers arrive in different shapes &mdash; one in the email body, one in a PDF, one in a chat message. Copying them into the same shape is the work. AI is good at exactly that.</div>
+
+  <div class="note">You do not need to tidy anything first. Messy is fine. Paste it as it came.</div>
+
+  <div class="do">Copy the three supplier replies below, then paste them into ChatGPT together with the instruction.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>The three supplier replies (sample data)</span><button onclick="cp(this)">Copy</button></div>
+    <pre>--- Supplier A: Nexon Industrial ---
+Hi, thanks for your inquiry. For the 3-ply surgical mask, earloop:
+Unit price USD 0.042 per piece, FOB Manila.
+MOQ 200,000 pcs. Lead time 25 days after PO.
+Payment 30% down, 70% before shipment.
+Price valid 15 days.
+
+--- Supplier B: Greenfield Medical Supply ---
+Good day. Please see our offer below.
+Item: 3ply mask earloop
+Price: 0.0395 USD/pc  (EXW Bataan)
+Minimum order 500,000 pieces
+Delivery: 30-35 days
+Terms: TT 50/50
+Freight to Manila port approx USD 850 per 20ft
+
+--- Supplier C: Sunrise Nonwoven ---
+Dear Sir/Madam,
+Quotation ref SNW-2609
+3-PLY MASK (EARLOOP) - USD 0.0455/pc CIF Manila
+Order quantity: any, no minimum
+Shipment: 18 days
+Payment: LC at sight
+Validity: 30 days from today</pre>
+  </div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type to ChatGPT</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Below are three supplier replies for the same item. They are in different formats.
+
+Put them into one comparison table. One row per supplier.
+Columns: Supplier, Unit price, Currency, Incoterm, MOQ, Lead time, Payment terms, Validity, Notes.
+
+Rules:
+- Keep the numbers exactly as written. Do not convert or round anything.
+- If something is not stated, write "not stated". Do not guess.
+- Put anything that does not fit a column into Notes.
+
+Here are the three replies:
+[paste the three replies here]</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  A table appears on screen with three rows &mdash; Nexon, Greenfield, Sunrise &mdash; and the prices sitting in one column: 0.042 / 0.0395 / 0.0455. MOQ for Sunrise says <i>not stated</i> or <i>no minimum</i>, not a made-up number.</div>
+
+  <div class="note"><b>If the numbers look wrong.</b> It usually means you pasted the instruction and the data as two separate messages, and it answered before it had the data. Paste them together in one message and try again.</div>
+
+  <details><summary>Now with your own</summary>
+  Open your own inbox. Take the last two or three supplier replies you actually received. Paste them in the same way. Nothing else changes.</details>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="panel hide" data-t="Part 1 · Ask the table a question" data-d="The part Excel makes hard">
+  <div class="stepno">Example 2 &nbsp;·&nbsp; of 4</div>
+  <h2>Ask the table a question</h2>
+  <p class="sub">Now the table exists. The real question was never "what are the prices". It was "which one should we take".</p>
+
+  <div class="why"><b>Why this matters.</b> In Excel this is where you start building formulas and get it wrong at 6pm. Here you just ask, in your own words, in the same conversation.</div>
+
+  <div class="do">Stay in the same chat. Do not start a new one. Type this.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>We need 300,000 pieces delivered to Manila.
+
+1. Which suppliers can actually take this order? Say why for each.
+2. For the ones that can, show the landed cost per piece including freight if freight is stated.
+3. Show your calculation for each one, line by line.
+4. If a supplier cannot be compared fairly because something is missing, say so instead of estimating.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  It tells you Greenfield is out at 300,000 pieces because its MOQ is 500,000. It shows the arithmetic for the other two instead of only giving you a winner. Where freight is not stated, it says so rather than inventing a figure.</div>
+
+  <div class="note"><b>Why we ask for the calculation.</b> Fifteen of you wrote in the form that you worry the answer may be wrong and you will not know. Making it show the working is how you check it in ten seconds instead of trusting it blindly.</div>
+
+  <details><summary>Now with your own</summary>
+  Ask it the question you actually have to answer for your boss this week. Use your own words. You do not need special wording.</details>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="panel hide" data-t="Part 1 · Find what is missing" data-d="The check you usually skip">
+  <div class="stepno">Example 3 &nbsp;·&nbsp; of 4</div>
+  <h2>Find what is missing</h2>
+  <p class="sub">The expensive mistakes are not wrong numbers. They are the gaps nobody noticed until the PO was already out.</p>
+
+  <div class="why"><b>Why this one.</b> One of you reads every section of a bidding document and takes notes, one to two hours. Another compares the inventory sheet against ERP line by line. Both are the same job: looking for the thing that does not match.</div>
+
+  <div class="do">Same chat again. Type this.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Before we send a PO, check the three quotes again and list:
+
+1. Anything a supplier did not state that we would need before ordering.
+2. Anything that is inconsistent between the three, for example different Incoterms that make the prices not comparable.
+3. Any term that puts risk on us.
+
+Give it as a short list. One line each. Do not repeat the table.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  A short list, not another table. It points out that the three prices are FOB, EXW and CIF and therefore not directly comparable; that Sunrise wants an LC; and that only Greenfield stated freight.</div>
+
+  <div class="note"><b>The one-line version to remember.</b> "What is missing, what does not match, what puts risk on us." That works on quotes, on bidding documents, on inventory reports, on contracts.</div>
+
+  <details><summary>Now with your own</summary>
+  Take a document you are checking this week. Paste it. Ask the same three questions. See what it catches that you had not written down yet.</details>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="panel hide" data-t="Part 1 · Get it back into Excel" data-d="One paste, columns intact">
+  <div class="stepno">Example 4 &nbsp;·&nbsp; of 4</div>
+  <h2>Get it back into Excel</h2>
+  <p class="sub">The table is on screen. Your report lives in Excel. This is the step people usually lose twenty minutes on.</p>
+
+  <div class="why"><b>Why it goes wrong.</b> If you copy a table straight off the screen, Excel drops everything into column A and you start splitting cells by hand. Asking for tab-separated text avoids that completely.</div>
+
+  <div class="do">Type this, then copy the block it gives you and paste into a blank Excel sheet.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Give me the comparison table again as tab-separated text, with a header row, nothing else.
+No bullet points, no explanation, no markdown. Just the rows.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  You paste into cell A1 and the data lands in separate columns on its own. Supplier in A, unit price in B, and so on. No Text-to-Columns, no manual splitting.</div>
+
+  <div class="note"><b>If it still lands in one column.</b> Your Excel may be set to expect commas. Go back and ask for it as CSV instead, then use Data &rarr; Text to Columns once. After that it will behave.</div>
+
+  <details><summary>Now with your own</summary>
+  Do the whole thing end to end with your own emails: paste the replies, get the table, ask your question, pull it into Excel. That round trip is the whole skill.</details>
+
+  <div class="ok" style="margin-top:22px"><b>What you can do now that you could not at 9am</b><br>
+  You can take information that arrived in four different shapes and have one clean table in about two minutes. One of you wrote that this takes two to three hours today.</div>
+</section>
+
+
+<section class="panel hide" data-t="Part 2 · Reply from bullet points" data-d="Stop writing then fixing">
+  <div class="stepno">Example 1 &nbsp;·&nbsp; of 4</div>
+  <h2>Reply from bullet points</h2>
+  <p class="sub">One of you wrote in the form: "Every time I need to email, I first have to recheck the grammar, then again and again, and it takes about 1 hour."</p>
+
+  <div class="why"><b>Why this is slow.</b> You are doing two jobs at once. You are deciding <i>what to say</i> and worrying about <i>how it sounds</i> in the same pass. That is why you rewrite the same sentence four times. Separate them: you decide the facts, it does the wording.</div>
+
+  <div class="note">Write your bullets in whatever English you would use with a colleague. It does not need to be correct.</div>
+
+  <div class="do">Copy the instruction, replace the bullets with your own facts, send it.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Write a reply email to a supplier. Here are the facts:
+
+- we received their quotation, thank them
+- price is higher than last order, we need them to explain the increase
+- we need delivery before 20 October, ask if that is possible
+- we need the freight cost separately, it was not in their quote
+- we will confirm the PO once these are clear
+
+Keep it short and businesslike. No flowery language.
+Do not add anything I did not give you.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  A short email comes back with all five points in it and nothing extra. No invented delivery date, no made-up order number. If you count five points in the draft, it worked.</div>
+
+  <div class="note"><b>The line that keeps it honest.</b> "Do not add anything I did not give you." Without it, drafts quietly grow a sentence you never approved.</div>
+
+  <details><summary>Now with your own</summary>
+  Open the email you have been putting off since yesterday. Write five bullets. Paste them in. Compare the time.</details>
+</section>
+
+<section class="panel hide" data-t="Part 2 · Change the tone" data-d="Same facts, different weight">
+  <div class="stepno">Example 2 &nbsp;·&nbsp; of 4</div>
+  <h2>Change the tone, not the content</h2>
+  <p class="sub">The draft is right but it reads too soft. Or too hard. Normally you rewrite the whole thing.</p>
+
+  <div class="why"><b>Why you rewrite it now.</b> Tone lives in the verbs and the hedges, not in the facts. Changing it by hand means touching every sentence. Asking for it takes one line and the facts stay locked.</div>
+
+  <div class="do">Stay in the same chat, right after the draft. Try all three and read them side by side.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Give me three versions of that same email. Same facts, no additions.
+
+1. Neutral and factual.
+2. Firmer, we have said this before and we need a date this time.
+3. Warmer, this is a supplier we want to keep.
+
+Keep all three under 120 words.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  Three versions appear. Version 2 says something close to "please confirm the date by Friday". Version 3 still asks for the same date but opens differently. The five facts are in all three.</div>
+
+  <div class="note"><b>Read them out loud in your head before picking.</b> The one you would be comfortable receiving is usually the right one.</div>
+
+  <details><summary>Now with your own</summary>
+  Take a reply you already sent last week that got no answer. Ask for the firmer version. That is often the reason it got no answer.</details>
+</section>
+
+<section class="panel hide" data-t="Part 2 · Did I miss anything" data-d="Check against what they asked">
+  <div class="stepno">Example 3 &nbsp;·&nbsp; of 4</div>
+  <h2>Did I answer everything they asked</h2>
+  <p class="sub">One of you wrote: "need to check if every detail is included and correct". This is that check, done in ten seconds.</p>
+
+  <div class="why"><b>Why this one earns its place.</b> The email that costs you a second round trip is not the one with bad grammar. It is the one that answered three of their four questions.</div>
+
+  <div class="do">Paste the email you received, then your draft reply, then ask.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>What you type</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Here is the email I received:
+[paste their email]
+
+Here is my draft reply:
+[paste your draft]
+
+1. List every question or request in their email.
+2. For each one, say whether my draft answers it. Yes or no.
+3. List anything I answered that they did not actually ask.
+
+Do not rewrite my draft. Just the check.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  A numbered list of their questions with Yes or No beside each. If there is a No, you found the second round trip before it happened.</div>
+
+  <div class="note"><b>Works on more than email.</b> Same three questions work on a bidding requirement list, an audit request, or a customer complaint.</div>
+
+  <details><summary>Now with your own</summary>
+  Use the longest email in your inbox right now. The one with four questions buried in one paragraph.</details>
+</section>
+
+<section class="panel hide" data-t="Part 2 · Stop re-explaining yourself" data-d="Say it once, not every time">
+  <div class="stepno">Example 4 &nbsp;·&nbsp; of 4</div>
+  <h2>Stop re-explaining yourself</h2>
+  <p class="sub">By now you have typed "keep it short and businesslike" four times. There is a place to say it once.</p>
+
+  <div class="why"><b>Why it matters more than it looks.</b> Most people give up on AI in week two, not week one. They give up because every conversation starts from zero and re-typing the context is more work than doing the task. This is the fix, and it takes two minutes.</div>
+
+  <div class="do">In ChatGPT, open the menu at your name, bottom left. Choose <b>Customise ChatGPT</b>. Paste the block below into the second box and save.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Paste into "How would you like ChatGPT to respond?"</span><button onclick="cp(this)">Copy</button></div>
+    <pre>I work in a medical supplies manufacturing company in the Philippines.
+Most of my writing is business email to suppliers and customers.
+
+When you draft anything for me:
+- Keep it short and businesslike. No flowery language.
+- Never add facts, dates, quantities or names I did not give you.
+  If something is missing, ask me instead of filling it in.
+- Use plain English. Short sentences.
+- When I give you numbers, keep them exactly as written.
+
+When I ask you to compare or calculate, show the working line by line.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  Save it, open a brand new chat, and type just "draft a reply asking the supplier for the freight cost". The reply comes back short and businesslike without you saying so. That is the setting working.</div>
+
+  <div class="note"><b>Edit the first two lines.</b> Change "medical supplies manufacturing" and the description of your writing to match your own department. That is the whole customisation.</div>
+
+  <details><summary>If you have a paid plan</summary>
+  With ChatGPT Plus you can go further and build a named GPT with its own instructions and files, so you can keep one for quotations and another for reports. Three people in this room have Plus. Everyone else gets 90 percent of the benefit from the settings box above, which is free.</details>
+
+  <div class="ok" style="margin-top:22px"><b>What you can do now that you could not at 9am</b><br>
+  You can turn five bullets into a finished email, get three tones of it, check it against what was actually asked, and make it behave that way permanently. One of you wrote that one email takes an hour today.</div>
+</section>
+
+
+<section class="panel hide" data-t="Part 3 · Write your card" data-d="The instruction you keep">
+  <div class="stepno">Example 1 &nbsp;·&nbsp; of 3</div>
+  <h2>Write your card</h2>
+  <p class="sub">One of you asked for this in the form: a personalised setup that fits your own work tasks. This is how you get it without paying.</p>
+
+  <div class="why"><b>What a card is.</b> One block of text that describes your job, your data, and how you want the answer. You keep it in a note or a Word file. You paste it at the top of a new chat and everything after it behaves. It is the difference between a tool you use twice and a tool you use daily.</div>
+
+  <div class="do">Fill in the four blanks. Use your own task from the pre-session form.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Your card &mdash; fill in the four blanks</span><button onclick="cp(this)">Copy</button></div>
+    <pre>MY TASK CARD
+
+Who I am:
+I work in [your department] at Medtecs Philippines.
+
+What I will give you:
+[what the raw material is, for example: supplier quotations pasted
+from different emails / inventory lines exported from ERP /
+a weekly update from three team members]
+
+What I want back:
+[the finished thing, for example: one comparison table /
+a short summary of what changed / a draft email]
+
+Rules:
+- Keep every number exactly as given. Never convert or round.
+- If something is missing, write "not stated". Never guess.
+- When you compare or calculate, show the working.
+- Short sentences. No flowery language.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  You can read your own card out loud and it describes what you actually do on a Tuesday. If the middle two blanks are vague, go back to your pre-session form and copy the sentence you wrote there.</div>
+
+  <div class="note"><b>Where to keep it.</b> A note on your phone, a Word file on your desktop, or the bottom of your own draft email to yourself. Anywhere you can copy from in five seconds.</div>
+
+  <details><summary>Now with your own</summary>
+  Write a second card for your other regular task. Most people end up with two or three, not one.</details>
+</section>
+
+<section class="panel hide" data-t="Part 3 · Make it permanent" data-d="Two minutes, free plan">
+  <div class="stepno">Example 2 &nbsp;·&nbsp; of 3</div>
+  <h2>Make it permanent</h2>
+  <p class="sub">Pasting the card every time still works. Putting the general part into settings means you only paste the task-specific part.</p>
+
+  <div class="why"><b>Why bother.</b> The rules at the bottom of your card are the same for every task. Those belong in settings. Only the middle two blanks change from job to job. Split them and pasting takes three seconds instead of thirty.</div>
+
+  <div class="do">Menu at your name, bottom left &rarr; <b>Customise ChatGPT</b>. Put the permanent half in. Keep the task half in your note.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Permanent half &mdash; goes into settings once</span><button onclick="cp(this)">Copy</button></div>
+    <pre>I work at Medtecs Philippines, a medical supplies manufacturer.
+
+Always:
+- Keep every number exactly as given. Never convert or round.
+- If something is not stated, write "not stated". Never guess or fill in.
+- When you compare or calculate, show the working line by line.
+- Short sentences, plain English, no flowery language.
+- Never add facts, dates, quantities or names I did not give you.</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  Open a brand new chat. Paste three messy supplier lines and type only "put these in a table". It keeps the numbers exactly and writes "not stated" where something is missing, without you asking. The settings are doing the work.</div>
+
+  <div class="note"><b>This is free.</b> You do not need a paid plan for the settings box. Twenty-nine of you do not pay for anything, and this still works.</div>
+
+  <details><summary>If you have a paid plan</summary>
+  With Plus you can create a named GPT, give it these instructions permanently and attach reference files such as your item code list. Useful if you run the same task many times a week. The free settings box gets you most of the way.</details>
+</section>
+
+<section class="panel hide" data-t="Part 3 · Test it on tomorrow" data-d="Real task, real check">
+  <div class="stepno">Example 3 &nbsp;·&nbsp; of 3</div>
+  <h2>Test it on tomorrow</h2>
+  <p class="sub">A setup you have not tested on real work is a setup you will not use next week.</p>
+
+  <div class="why"><b>Why we test now and not at home.</b> If it breaks at your desk on Monday with nobody around, you will quietly stop using it. If it breaks here, someone fixes it in two minutes.</div>
+
+  <div class="do">Open a new chat. Paste your card. Then give it something you actually have to do tomorrow.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>The check, after it answers</span><button onclick="cp(this)">Copy</button></div>
+    <pre>Before I use this:
+
+1. Which numbers in your answer came from what I gave you?
+2. Which parts did you infer or assume? List them.
+3. What would you need from me to remove the assumptions?</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  It separates what you gave it from what it filled in. If the "inferred" list is empty and the answer is complete, you can use it. If the list is long, you now know exactly which question to ask your colleague.</div>
+
+  <div class="note"><b>This is the habit worth keeping.</b> Fifteen of you wrote that you worry the answer may be wrong and you will not know. This check is the answer to that worry. It takes ten seconds.</div>
+
+  <div class="ok" style="margin-top:22px"><b>What you can do now that you could not at 9am</b><br>
+  You have a card that describes your own job, a settings box that applies it to every new chat, and a three-line check that tells you what is safe to use. None of this needs a paid plan.</div>
+</section>
+
+
+<section class="panel hide" data-t="Part 4 · Get your material" data-d="The real thing, not a sample">
+  <div class="stepno">Step 1 &nbsp;·&nbsp; of 3</div>
+  <h2>Get your material</h2>
+  <p class="sub">In the pre-session form you each described one task. That is the task. Not a smaller one, not an easier one.</p>
+
+  <div class="why"><b>Why your own and not a sample.</b> A sample proves the tool works. Your own proves <i>you</i> can work it. Only one of those survives until Monday.</div>
+
+  <div class="do">Open the real source. Your inbox, your Excel file, your ERP export. Copy enough of it to be a fair test. Two or three items is enough, you do not need all of it.</div>
+
+  <div class="note"><b>If your task needs a file you cannot open here</b>, use the closest thing you can reach. A screenshot of the screen, or three lines typed by hand. The point is the method, not the volume.</div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  You have real material on your clipboard and you can say in one sentence what the finished thing should be. If you cannot say the finished thing, ask the person next to you to say it back to you.</div>
+</section>
+
+<section class="panel hide" data-t="Part 4 · Run the three moves" data-d="Everything from today, in order">
+  <div class="stepno">Step 2 &nbsp;·&nbsp; of 3</div>
+  <h2>Run the three moves</h2>
+  <p class="sub">Everything today was three moves. Do them in this order on your own material.</p>
+
+  <div class="why"><b>The whole session, in one box.</b> Pull it together. Ask it a question. Check what is missing. Everything else was a variation.</div>
+
+  <div class="do">Paste your card first. Then work down this list, one message at a time.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>The three moves</span><button onclick="cp(this)">Copy</button></div>
+    <pre>MOVE 1 - PULL IT TOGETHER
+Here is my material. Put it into [one table / one summary / one draft].
+Keep every number exactly as written. Write "not stated" for anything missing.
+[paste your material]
+
+MOVE 2 - ASK IT THE REAL QUESTION
+[the question you actually have to answer, in your own words]
+Show your working line by line.
+
+MOVE 3 - CHECK IT
+1. What is missing that I would need before I act on this?
+2. What does not match or is inconsistent?
+3. Which parts did you infer rather than take from what I gave you?</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  You are holding something you would actually send or file. Not a demo. If you would still have to redo it by hand, put your hand up now, not on Monday.</div>
+
+  <div class="note"><b>If move 1 gives you something wrong</b>, it is almost always because the instruction and the material went in as two separate messages. Put them in one.</div>
+</section>
+
+<section class="panel hide" data-t="Part 4 · Write down the number" data-d="Before you forget it">
+  <div class="stepno">Step 3 &nbsp;·&nbsp; of 3</div>
+  <h2>Write down the number</h2>
+  <p class="sub">Two minutes. Do this before you close the laptop, because by Friday you will not remember.</p>
+
+  <div class="why"><b>Why we write it down.</b> Across the 32 forms, this room spends about 98 hours a week on the single task each of you picked. That is roughly 4,700 hours a year. Nobody will believe that number unless you can each point at your own line.</div>
+
+  <div class="do">Write these four lines. On paper, in a note, in an email to yourself. Anywhere.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Four lines</span><button onclick="cp(this)">Copy</button></div>
+    <pre>1. The task: ______________________________
+2. How long it took me before: ______ per week
+3. How long it took just now: ______
+4. What I still cannot do on my own: ______________________________</pre>
+  </div>
+
+  <div class="ok"><b>&#10003; This is what success looks like</b><br>
+  Line 3 is a real number you just measured, not an estimate. Line 4 is not empty. Everybody has something in line 4, and that line is what the next session is built from.</div>
+
+  <div class="note"><b>One line each, out loud.</b> Before we finish, each table says one thing they got working. Thirty seconds each. That is how the person next to you finds out this applies to them too.</div>
+
+  <div class="ok" style="margin-top:22px"><b>Where this goes next</b><br>
+  Line 4 from every person becomes the content of the next session. Nothing gets designed in a room somewhere. It gets built from what you just wrote down.</div>
+</section>
+  </div><!-- /panels -->
+</div><!-- /layout -->
+
+<div class="foot">
+  AI Session &middot; Makati &middot; 2 October 2026 &middot; All four parts in one page.
+  Built from the 32 pre-session forms you filled in.
+</div>
+</div><!-- /wrap -->
+
+<script>
+(function(){
+ var panels=[].slice.call(document.querySelectorAll('.panel'));
+ var N=panels.length, cur=0, done={};
+ var rail=document.getElementById('rail');
+
+ function drawRail(){
+  rail.innerHTML=panels.map(function(p,k){
+   return '<div class="rstep '+(k===cur?'cur':'')+' '+(done[k]?'done':'')+'" data-k="'+k+'">'+
+          '<span class="dot">'+(done[k]?'✓':(k+1))+'</span>'+
+          '<span><span class="rt">'+p.getAttribute('data-t')+'</span>'+
+          '<span class="rd">'+p.getAttribute('data-d')+'</span></span></div>';
+  }).join('');
+  [].forEach.call(rail.querySelectorAll('.rstep'),function(el){
+   el.onclick=function(){cur=+el.dataset.k;render();};
+  });
+ }
+ function render(){
+  panels.forEach(function(p,k){p.classList.toggle('hide',k!==cur);});
+  var p=panels[cur];
+  if(!p.querySelector('.nav')){
+   var nav=document.createElement('div'); nav.className='nav';
+   nav.innerHTML=(cur>0?'<button class="prev" data-go="prev">Previous</button>':'<span></span>')+
+     '<button class="next" data-go="next">'+(cur===N-1?'✓ Done':'✓ Next')+'</button>';
+   p.appendChild(nav);
+  }
+  [].forEach.call(p.querySelectorAll('[data-go]'),function(b){
+   b.onclick=function(){
+     if(b.dataset.go==='next'){done[cur]=true; if(cur<N-1)cur++;}
+     else cur--;
+     render(); window.scrollTo(0,0);
+   };
+  });
+  drawRail();
+  var d=0; for(var i=0;i<N;i++) if(done[i]) d++;
+  document.getElementById('pbar').style.width=Math.round((cur+1)/N*100)+'%';
+  document.getElementById('plab').textContent='Example '+(cur+1)+' of '+N+(d?'  ·  '+d+' done':'');
+ }
+ window.cp=function(btn){
+  var t=btn.parentNode.parentNode.querySelector('pre').textContent;
+  var fin=function(ok){btn.textContent=ok?'✓ Copied':'Select manually';
+    btn.className=ok?'ok':''; setTimeout(function(){btn.textContent='Copy';btn.className='';},1800);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){fin(true);},function(){fin(false);});
+  } else {
+    try{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);
+      ta.select();var k=document.execCommand('copy');document.body.removeChild(ta);fin(k);}
+    catch(e){fin(false);}
+  }
+ };
+ render();
+})();
+</script>
+</body>
+</html>
