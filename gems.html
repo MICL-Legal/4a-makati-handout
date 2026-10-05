@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Own AI Helper</title>
+<style>
+:root{
+ --paper:#f5f0e6; --card:#efe7d6; --card2:#e4dccb; --ink:#2b2620;
+ --soft:#6d6456; --faint:#93897a; --line:#ddd1bc;
+ --accent:#9a6634; --accent2:#b98a52;
+ --good:#5a7d4a; --goodbg:#e4ecdc;
+ --cmdbg:#2b2620; --cmdfg:#f0e6d4;
+}
+@media (prefers-color-scheme:dark){
+ :root{
+  --paper:#1c1814; --card:#241f1a; --card2:#2f2a24; --ink:#efe7d6;
+  --soft:#c9bfae; --faint:#8b8172; --line:#4a433a;
+  --accent:#d9ab73; --accent2:#b98a52;
+  --good:#9ec488; --goodbg:#26301f;
+  --cmdbg:#100d0a; --cmdfg:#f0e6d4;
+ }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font:16px/1.65 "PingFang TC","Microsoft JhengHei",-apple-system,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:30px 20px 70px}
+h1,h2,h3{font-family:Georgia,"Songti TC",serif;font-weight:600;letter-spacing:.2px}
+header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1{font-size:32px;margin:9px 0 6px}
+.lede{font-size:18px;color:var(--soft);margin:0 0 18px}
+.bar{height:7px;background:var(--card2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s}
+.barlab{font-size:12px;color:var(--faint);margin-top:6px}
+.pre{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+ border-radius:10px;padding:14px 16px;margin-top:18px;font-size:14.5px}
+.pre b{color:var(--accent)}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:26px}
+@media (max-width:760px){.layout{grid-template-columns:1fr}.rail{order:2}}
+.rail{position:sticky;top:20px;align-self:start}
+.rstep{display:flex;gap:11px;padding:10px 11px;border-radius:9px;cursor:pointer;margin-bottom:3px}
+.rstep:hover{background:var(--card)}
+.rstep.cur{background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.dot{width:23px;height:23px;flex:none;border-radius:50%;background:var(--card2);
+ color:var(--soft);font:600 12px/23px ui-monospace,monospace;text-align:center}
+.rstep.cur .dot{background:var(--accent);color:#fff}
+.rstep.done .dot{background:var(--good);color:#fff}
+.rt{display:block;font-size:14.5px;font-weight:600}
+.rd{display:block;font-size:12.5px;color:var(--faint)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 28px}
+.panel.hide{display:none}
+.stepno{font-size:12.5px;color:var(--faint);letter-spacing:.06em}
+.panel h2{font-size:25px;margin:6px 0 4px}
+.sub{color:var(--soft);margin:0 0 20px;font-size:15.5px}
+.why,.do,.ok,.note{border-radius:10px;padding:13px 15px;margin:14px 0;font-size:15px}
+.why{background:var(--card2)}
+.do{background:transparent;border:1px dashed var(--accent2);color:var(--ink);font-weight:600}
+.ok{background:var(--goodbg);border-left:3px solid var(--good)}
+.ok b{color:var(--good)}
+.note{background:transparent;border:1px solid var(--line);font-size:14px;color:var(--soft)}
+.cmd{background:var(--cmdbg);color:var(--cmdfg);border-radius:11px;margin:12px 0;overflow:hidden}
+.cmdhd{display:flex;justify-content:space-between;align-items:center;
+ padding:9px 13px;font-size:12.5px;color:#bdae95;border-bottom:1px solid #3a332b}
+.cmdhd button{font:600 12px/1 inherit;background:var(--accent);color:#fff;border:0;
+ border-radius:7px;padding:6px 11px;cursor:pointer}
+.cmdhd button.ok{background:var(--good)}
+.cmd pre{margin:0;padding:14px 15px;white-space:pre-wrap;word-break:break-word;
+ font:13.5px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;
+ border-top:1px solid var(--line);padding-top:18px}
+.nav button{font:600 15px/1 inherit;border-radius:10px;padding:12px 20px;cursor:pointer;border:0}
+.prev{background:var(--card2);color:var(--soft)}
+.next{background:var(--accent);color:#fff}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+ font-size:13px;color:var(--faint)}
+details{margin:14px 0;font-size:14.5px}
+summary{cursor:pointer;color:var(--accent);font-weight:600}
+table.mini{border-collapse:collapse;font-size:13.5px;margin:10px 0;width:100%}
+table.mini th,table.mini td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+table.mini th{background:var(--card2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">AI Session &middot; Bataan &middot; 6 October 2026 &middot; 25 minutes</div>
+  <h1>Your own AI helper &mdash; Gemini Gems</h1>
+  <p class="lede">Stop explaining the same thing to AI every week. Explain it once, save it, and call it back with one click.</p>
+  <div class="bar"><i id="pbar"></i></div>
+  <div class="barlab" id="plab">Step 1 of 4</div>
+  <div class="pre">
+    <b>Before you start.</b> You need a laptop browser and a Google account (a normal Gmail works). Open <b>gemini.google.com</b> and sign in. Build on the laptop, not on your phone. Nothing to install.
+  </div>
+</header>
+
+<div class="layout">
+  <div class="rail" id="rail"></div>
+  <div id="panels">
+
+<!-- ============ 1 ============ -->
+<section class="panel" data-t="Step 1 · The same chat, every week" data-d="Why a saved helper beats a new chat">
+  <div class="stepno">Step 1 &nbsp;·&nbsp; of 4 &nbsp;·&nbsp; 5 minutes</div>
+  <h2>The same chat, every week</h2>
+  <p class="sub">Most of us use AI like a search box: open a new chat, ask, copy the answer, close. Next week, start from zero again.</p>
+
+  <div class="why"><b>Why this matters.</b> Before, every Monday you typed: <i>&ldquo;You are helping me write my weekly update for my manager. Use three headings. Keep it short. Do not invent numbers&hellip;&rdquo;</i> and only then pasted your notes. Now you write that part <b>once</b>, save it as a <b>Gem</b>, and every Monday you only paste your notes.</div>
+
+  <div class="note">A Gem is just Gemini with your instructions already loaded. Same AI, same price (free), but it already knows the job before you say a word.</div>
+
+  <div class="do">Think of one task you do every week (or every day) where you always have to explain the same background first. Write it on paper in one line.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Ideas from this office, if you are stuck</span><button onclick="cp(this)">Copy</button></div>
+    <pre>- Weekly update to my manager from my rough notes
+- Replying to supplier or customer emails in our polite company tone
+- Turning meeting notes into an action list (who, what, by when)
+- Checking a delivery or inventory list against the PO
+- Explaining a policy or memo in simple words for the line team</pre>
+  </div>
+
+  <div class="ok"><b>✓ Done when:</b> you have one line on paper that starts with &ldquo;Every week I&hellip;&rdquo; &mdash; and you know what background you always have to repeat.</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="panel" data-t="Step 2 · Build one together" data-d="Weekly Update Writer, 10 minutes">
+  <div class="stepno">Step 2 &nbsp;·&nbsp; of 4 &nbsp;·&nbsp; 10 minutes</div>
+  <h2>Build one together: Weekly Update Writer</h2>
+  <p class="sub">Everyone builds the same Gem first, so we all see the same screen. Your own comes in Step 3.</p>
+
+  <div class="why"><b>Watch for three things.</b> (1) Where the instructions go. (2) The test box on the right side &mdash; you can try before you save. (3) Where the saved Gem appears afterwards.</div>
+
+  <div class="do">On gemini.google.com: left side &rarr; <b>Explore Gems</b> (or <b>Gems</b>) &rarr; <b>New Gem</b>. In <b>Name</b>, type <i>Weekly Update Writer</i>. Then copy the block below into <b>Instructions</b>.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Paste into Instructions</span><button onclick="cp(this)">Copy</button></div>
+    <pre>ROLE: You help me write my weekly update to my manager.
+
+TASK: I will paste rough notes from my week. Turn them into a clean update.
+
+BACKGROUND: My manager reads this on the phone, so it must be short. They care most about problems that need their decision.
+
+FORMAT:
+1. Done this week (bullets, max 5)
+2. Next week (bullets, max 5)
+3. Need your decision (bullets; write "None" if nothing)
+Under 150 words in total. Plain English.
+
+NEVER: Never invent numbers, names or dates. If something in my notes is unclear, list it at the end under "Please check" instead of guessing.</pre>
+  </div>
+
+  <div class="do">Now test it in the preview box on the right. Paste these rough notes and press Enter.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Test notes (sample data)</span><button onclick="cp(this)">Copy</button></div>
+    <pre>finished stock count line 2 & 3, 4 cartons gloves missing still checking. trained 2 new staff on packing. forklift battery weak again, need to buy new one maybe 18k? supplier said delivery of masks moved to next fri. next week: finish line 4 count, follow up gloves</pre>
+  </div>
+
+  <div class="ok"><b>✓ Success looks like:</b> the answer comes back with the three headings, the forklift battery sits under <b>Need your decision</b>, and the &ldquo;18k?&rdquo; shows up under <b>Please check</b> instead of being written as a fact. You never typed the format &mdash; the Gem already knew it.</div>
+
+  <div class="do">Click <b>Save</b>. Close the Gem. Look at the left side under <b>Gems</b>.</div>
+
+  <div class="ok"><b>✓ Saved when:</b> <i>Weekly Update Writer</i> is in your Gems list. Click it next Monday and paste only your notes.</div>
+
+  <div class="note">⚠️ <b>No &ldquo;Gems&rdquo; on your screen, but you see &ldquo;Skills&rdquo;?</b> Google is replacing Gems with Skills (see Step 4). Go to <b>Settings &rarr; Skills &rarr; Create manually</b>, use the same name, write one line in Description, paste the same Instructions, save. In any chat, type <kbd>/</kbd> and pick it.</div>
+
+  <div class="note">⚠️ <b>The answer ignored the format?</b> Usually the Instructions were pasted into the chat box instead of the Instructions field. Open the Gem &rarr; Edit &rarr; check the Instructions field is full.</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="panel" data-t="Step 3 · Make your own" data-d="Five boxes, your task">
+  <div class="stepno">Step 3 &nbsp;·&nbsp; of 4 &nbsp;·&nbsp; 8 minutes</div>
+  <h2>Make your own</h2>
+  <p class="sub">Take the one line you wrote in Step 1 and fill the same five boxes. It does not need to be beautiful. Clear is enough.</p>
+
+  <div class="why"><b>Why five boxes.</b> When AI gives a bad answer, it is almost always because one of these was missing: it did not know who it was, what to do, what you already know, what the result should look like, or what it must never do.</div>
+
+  <div class="do">Make a new Gem, give it a name that says the job, copy the template, and replace each line with your own words.</div>
+
+  <div class="cmd">
+    <div class="cmdhd"><span>Blank five-box template</span><button onclick="cp(this)">Copy</button></div>
+    <pre>ROLE: You help me ... (who it is for, in one line)
+
+TASK: I will paste ... Turn it into ...
+
+BACKGROUND: (what you always have to explain: who reads it, what they care about, company rules)
+
+FORMAT: (headings, table columns, length, language)
+
+NEVER: Never invent numbers, names or dates. If something is unclear, list it under "Please check" instead of guessing.</pre>
+  </div>
+
+  <div class="note">💡 <b>Keep the NEVER line.</b> It is the line that stops AI from filling gaps with made-up facts.</div>
+
+  <div class="ok"><b>✓ Success looks like:</b> you paste one real-looking (but not confidential) input, and the answer comes back in your format on the first try. If it does not, change the Instructions &mdash; not your input &mdash; and test again.</div>
+
+  <details>
+    <summary>Two more ready-made Gems you can copy</summary>
+    <div class="cmd">
+      <div class="cmdhd"><span>Email Reply Helper &mdash; Instructions</span><button onclick="cp(this)">Copy</button></div>
+      <pre>ROLE: You help me reply to supplier and customer emails.
+
+TASK: I will paste the email I received, then one line saying what I want to answer. Write the reply.
+
+BACKGROUND: Our tone is polite, direct and short. We do not over-apologise. We confirm numbers exactly as written in the original email.
+
+FORMAT: Subject line, then the reply. Max 120 words. End with "Best regards," and leave my name blank.
+
+NEVER: Never promise prices, dates or quantities that are not in my one-line answer. If the email asks something I did not answer, list it under "Please check".</pre>
+    </div>
+    <div class="cmd">
+      <div class="cmdhd"><span>Meeting Action List &mdash; Instructions</span><button onclick="cp(this)">Copy</button></div>
+      <pre>ROLE: You turn my meeting notes into an action list.
+
+TASK: I will paste rough notes or a transcript. Pull out every action.
+
+BACKGROUND: The list is sent to everyone after the meeting, so each action needs one owner.
+
+FORMAT: A table with columns: No. | Action | Owner | Due date. Below the table, a short "Decisions made" list.
+
+NEVER: Never guess an owner or due date. If it was not said, write "?" in that cell and list it under "Please check".</pre>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="panel" data-t="Step 4 · Three rules, one change" data-d="Safe use, and Gems becoming Skills">
+  <div class="stepno">Step 4 &nbsp;·&nbsp; of 4 &nbsp;·&nbsp; 2 minutes</div>
+  <h2>Three rules, and one change coming</h2>
+  <p class="sub">Read these before you share a Gem or add files to it.</p>
+
+  <div class="why"><b>Rule 1 &mdash; No confidential files in Knowledge.</b> A Gem can hold files (the <b>Knowledge</b> section). Why it is risky: the file stays in your Google account, and anyone you share the Gem with can see the instructions <b>and the files</b>. What to do: never upload contracts, price lists, salary data or personal data. Use a sample or a version with names removed.</div>
+
+  <div class="why"><b>Rule 2 &mdash; You check the answer.</b> AI does the work; you must be able to say why the answer is right. Read the &ldquo;Please check&rdquo; list every time before you send anything.</div>
+
+  <div class="why"><b>Rule 3 &mdash; Keep a copy of your Instructions.</b> The Instructions are the real asset, not the button. Save them in a document. The same text works in any AI tool &mdash; in ChatGPT, paste it at the top of a new chat.</div>
+
+  <table class="mini">
+    <tr><th>The change</th><th>What it means for you</th></tr>
+    <tr><td>Google is replacing <b>Gems</b> with <b>Skills</b></td><td>Same idea: saved instructions you call again. In a normal chat you type <kbd>/</kbd> and pick the Skill. You can use more than one at a time.</td></tr>
+    <tr><td>Personal Google accounts: from 17 November 2026</td><td>Your Gems are moved to Skills automatically. Name, instructions and supported files come with them. Nothing you build today is wasted.</td></tr>
+    <tr><td>Company (Google Workspace) accounts: later</td><td>Gems keep working until at least March 2027.</td></tr>
+  </table>
+
+  <div class="ok"><b>✓ Finished when:</b> you have one Gem saved, tested once with non-confidential input, and a copy of its Instructions saved in a document.</div>
+</section>
+
+  </div><!-- /panels -->
+</div><!-- /layout -->
+
+<div class="foot">
+  AI Session &middot; Bataan &middot; 6 October 2026 &middot; Gemini Gems module.
+  Information on Gems and Skills checked against Google&rsquo;s help pages on 5 October 2026.
+  &middot; <a href="index.html" style="color:var(--accent)">Back to the four-part handout</a>
+</div>
+</div><!-- /wrap -->
+
+<script>
+(function(){
+ var panels=[].slice.call(document.querySelectorAll('.panel'));
+ var N=panels.length, cur=0, done={};
+ var rail=document.getElementById('rail');
+
+ function drawRail(){
+  rail.innerHTML=panels.map(function(p,k){
+   return '<div class="rstep '+(k===cur?'cur':'')+' '+(done[k]?'done':'')+'" data-k="'+k+'">'+
+          '<span class="dot">'+(done[k]?'✓':(k+1))+'</span>'+
+          '<span><span class="rt">'+p.getAttribute('data-t')+'</span>'+
+          '<span class="rd">'+p.getAttribute('data-d')+'</span></span></div>';
+  }).join('');
+  [].forEach.call(rail.querySelectorAll('.rstep'),function(el){
+   el.onclick=function(){cur=+el.dataset.k;render();};
+  });
+ }
+ function render(){
+  panels.forEach(function(p,k){p.classList.toggle('hide',k!==cur);});
+  var p=panels[cur];
+  if(!p.querySelector('.nav')){
+   var nav=document.createElement('div'); nav.className='nav';
+   nav.innerHTML=(cur>0?'<button class="prev" data-go="prev">Previous</button>':'<span></span>')+
+     '<button class="next" data-go="next">'+(cur===N-1?'✓ Done':'✓ Next')+'</button>';
+   p.appendChild(nav);
+  }
+  [].forEach.call(p.querySelectorAll('[data-go]'),function(b){
+   b.onclick=function(){
+     if(b.dataset.go==='next'){done[cur]=true; if(cur<N-1)cur++;}
+     else cur--;
+     render(); window.scrollTo(0,0);
+   };
+  });
+  drawRail();
+  var d=0; for(var i=0;i<N;i++) if(done[i]) d++;
+  document.getElementById('pbar').style.width=Math.round((cur+1)/N*100)+'%';
+  document.getElementById('plab').textContent='Step '+(cur+1)+' of '+N+(d?'  ·  '+d+' done':'');
+ }
+ window.cp=function(btn){
+  var t=btn.parentNode.parentNode.querySelector('pre').textContent;
+  var fin=function(ok){btn.textContent=ok?'✓ Copied':'Select manually';
+    btn.className=ok?'ok':''; setTimeout(function(){btn.textContent='Copy';btn.className='';},1800);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){fin(true);},function(){fin(false);});
+  } else {
+    try{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);
+      ta.select();var k=document.execCommand('copy');document.body.removeChild(ta);fin(k);}
+    catch(e){fin(false);}
+  }
+ };
+ render();
+})();
+</script>
+</body>
+</html>
